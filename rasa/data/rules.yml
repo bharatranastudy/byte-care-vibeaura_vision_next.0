@@ -1,0 +1,68 @@
+version: "3.1"
+
+rules:
+
+# Greeting rule
+- rule: Say goodbye anytime the user says goodbye
+  steps:
+  - intent: goodbye
+  - action: utter_goodbye
+
+# Greeting rule
+- rule: Say 'I am a bot' anytime the user challenges
+  steps:
+  - intent: bot_challenge
+  - action: utter_iamabot
+
+# Fallback rule
+- rule: Fallback for any other intent
+  steps:
+  - intent: nlu_fallback
+  - action: action_default_fallback
+
+# Emergency rule - highest priority
+- rule: Emergency response
+  steps:
+  - intent: emergency_help
+  - action: action_emergency_assessment
+  - action: utter_emergency_help
+
+# Language detection rule
+- rule: Detect and set language preference
+  steps:
+  - intent: language_preference
+  - action: action_language_detection
+  - action: utter_language_set
+
+# Symptom triage: start form on symptom intent
+- rule: Start symptom triage form
+  steps:
+  - intent: symptom_check
+  - action: symptom_triage_form
+  - active_loop: symptom_triage_form
+
+# Symptom triage: submit form
+- rule: Submit symptom triage form
+  condition:
+  - active_loop: symptom_triage_form
+  steps:
+  - action: symptom_triage_form
+  - active_loop: null
+  - action: utter_triage_summary
+
+# Note: Vaccination and outbreak responses are guided by stories to allow slot filling and actions.
+# The simple direct-response rules were removed to avoid conflicts with stories.
+
+# Reward balance check rule
+- rule: Check reward balance
+  steps:
+  - intent: reward_balance
+  - action: action_reward_calculation
+  - action: utter_reward_balance
+
+# Medicine scan rule
+- rule: Handle medicine scanning
+  steps:
+  - intent: medicine_scan
+  - action: action_medicine_scan
+  - action: utter_medicine_scan_result

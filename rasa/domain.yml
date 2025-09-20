@@ -1,0 +1,219 @@
+version: "3.1"
+
+intents:
+  - greet
+  - goodbye
+  - affirm
+  - deny
+  - mood_great
+  - mood_unhappy
+  - bot_challenge
+  - symptom_check
+  - vaccination_schedule
+  - medicine_info
+  - outbreak_alert
+  - health_tips
+  - emergency_help
+  - language_preference
+  - reward_balance
+  - upload_symptom_image
+  - voice_input
+  - medicine_scan
+  - health_quiz
+  - appointment_booking
+
+entities:
+  - symptom
+  - age
+  - gender
+  - location
+  - medicine_name
+  - vaccination_type
+  - language
+  - severity
+  - duration
+  - body_part
+  - medical_history
+  - allergies
+
+slots:
+  user_age:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: age
+  user_gender:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: gender
+  user_location:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: location
+  current_symptoms:
+    type: list
+    mappings:
+    - type: from_entity
+      entity: symptom
+  user_language:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: language
+  language:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: language
+  medicine_name:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: medicine_name
+  medical_history:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: medical_history
+  allergies:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: allergies
+
+  triage_symptom:
+    type: text
+    influence_conversation: true
+    mappings:
+    - type: from_entity
+      entity: symptom
+    - type: from_text
+
+  triage_duration:
+    type: text
+    influence_conversation: true
+    mappings:
+    - type: from_entity
+      entity: duration
+    - type: from_text
+
+  triage_severity:
+    type: text
+    influence_conversation: true
+    mappings:
+    - type: from_entity
+      entity: severity
+    - type: from_text
+
+responses:
+  utter_greet:
+  - text: "Hello! I'm your health assistant. How can I help you today?"
+  - text: "Hi there! I'm here to help with your health questions. What would you like to know?"
+  - text: "Welcome! I can help you with symptoms, vaccinations, and health information. What do you need?"
+
+  utter_goodbye:
+  - text: "Take care of your health! Feel free to reach out anytime."
+  - text: "Goodbye! Remember to stay healthy and hydrated."
+  - text: "See you later! Don't hesitate to ask if you have any health concerns."
+
+  utter_ask_symptoms:
+  - text: "What symptoms are you experiencing? Please describe them in detail."
+  - text: "I'd like to help you with your symptoms. Can you tell me what you're feeling?"
+
+  utter_ask_age:
+  - text: "What is your age? This helps me provide more accurate health information."
+
+  utter_ask_gender:
+  - text: "What is your gender? This information helps me give you personalized health advice."
+
+  utter_ask_location:
+  - text: "What is your location? This helps me check for any local health alerts or outbreaks."
+
+  utter_symptom_analysis:
+  - text: "Based on your symptoms, I recommend {analysis}. However, please consult a healthcare professional for proper diagnosis."
+
+  utter_vaccination_info:
+  - text: "Here's your vaccination schedule: {vaccination_info}"
+
+  utter_medicine_info:
+  - text: "Information about {medicine_name}: {medicine_details}"
+
+  utter_outbreak_alert:
+  - text: "⚠️ Health Alert: {alert_message} Please take necessary precautions."
+
+  utter_health_tips:
+  - text: "Here are some health tips: {health_tips}"
+
+  utter_emergency_help:
+  - text: "🚨 This seems like an emergency. Please contact emergency services immediately or visit the nearest hospital."
+
+  utter_language_set:
+  - text: "Language set to {language}. I'll now respond in {language}."
+
+  utter_reward_earned:
+  - text: "🎉 Congratulations! You've earned {tokens} health tokens for {action}."
+
+  utter_reward_balance:
+  - text: "Your current reward balance: {balance} health tokens."
+
+  utter_upload_instructions:
+  - text: "Please upload an image of your symptoms or medicine. I'll analyze it for you."
+
+  utter_voice_input_received:
+  - text: "I've received your voice message. Let me process that for you."
+
+  utter_medicine_scan_result:
+  - text: "Medicine scan result: {scan_result}"
+
+  utter_ask_triage_symptom:
+  - text: "Please describe your main symptom (e.g., fever, cough, headache)."
+
+  utter_ask_triage_duration:
+  - text: "How long have you had this symptom? (e.g., 2 days, 1 week)"
+
+  utter_ask_triage_severity:
+  - text: "How severe is it? (mild, moderate, severe)"
+
+  utter_triage_summary:
+  - text: "Summary: symptom={triage_symptom}, duration={triage_duration}, severity={triage_severity}. This is not medical advice; consider consulting a clinician if symptoms persist or worsen."
+
+  utter_health_quiz_question:
+  - text: "Health Quiz: {question}"
+
+  utter_appointment_confirmation:
+  - text: "Your appointment has been scheduled for {date} at {time} with {doctor}."
+
+  utter_iamabot:
+  - text: "I'm a health assistant bot designed to help you with health-related questions and concerns."
+
+  utter_happy:
+  - text: "I'm glad I could help! Is there anything else you'd like to know about your health?"
+
+actions:
+  - action_health_analysis
+  - action_vaccination_schedule
+  - action_medicine_lookup
+  - action_outbreak_check
+  - action_health_tips
+  - action_emergency_assessment
+  - action_language_detection
+  - action_reward_calculation
+  - action_image_analysis
+  - action_voice_processing
+  - action_medicine_scan
+  - action_health_quiz
+  - action_appointment_booking
+  - action_send_vaccination_reminder
+
+forms:
+  symptom_triage_form:
+    required_slots:
+      - triage_symptom
+      - triage_duration
+      - triage_severity
+
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true

@@ -1,0 +1,123 @@
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: sih_health_bot
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./migrations:/docker-entrypoint-initdb.d
+    ports:
+      - "5432:5432"
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+
+  # Rasa Chatbot
+  rasa:
+    build: ./rasa
+    ports:
+      - "5005:5005"
+    volumes:
+      - ./rasa:/app
+    env_file:
+      - .env
+    environment:
+      - RASA_ENDPOINT=http://actions:8000/webhook
+      - ACTIONS_SERVER_URL=http://actions:8000/webhook
+      - TWILIO_ACCOUNT_SID=${TWILIO_ACCOUNT_SID}
+      - TWILIO_AUTH_TOKEN=${TWILIO_AUTH_TOKEN}
+      - TWILIO_NUMBER=${TWILIO_NUMBER}
+    depends_on:
+      - postgres
+      - redis
+
+  # FastAPI Actions Server
+  actions:
+    build: ./actions
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/sih_health_bot
+      - REDIS_URL=redis://redis:6379
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+      - RASA_ENDPOINT=http://rasa:5005
+      - OUTBREAK_HMAC_SECRET=${OUTBREAK_HMAC_SECRET}
+      - CHAIN_RPC_URL=${CHAIN_RPC_URL}
+      - REWARD_CONTRACT_ADDRESS=${REWARD_CONTRACT_ADDRESS}
+      - REWARD_MINTER_PRIVATE_KEY=${REWARD_MINTER_PRIVATE_KEY}
+    depends_on:
+      - postgres
+      - redis
+
+  # React Frontend
+  webapp:
+    build: ./webapp
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_API_URL=http://actions:8000
+      - REACT_APP_RASA_URL=http://localhost:5005
+    depends_on:
+      - actions
+
+  # Celery Worker
+  worker:
+    build: ./worker
+    command: celery -A app.celery_app worker --loglevel=info
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/sih_health_bot
+      - REDIS_URL=redis://redis:6379
+    working_dir: /app/worker
+    volumes:
+      - ./:/app
+    depends_on:
+      - postgres
+      - redis
+
+  # Celery Beat Scheduler
+  beat:
+    build: ./worker
+    command: celery -A app.celery_app beat --loglevel=info
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/sih_health_bot
+      - REDIS_URL=redis://redis:6379
+    working_dir: /app
+    volumes:
+      - ./:/app
+    depends_on:
+      - postgres
+      - redis
+
+  # ML Services
+  ml-service:
+    build: ./ml
+    ports:
+      - "8001:8001"
+    environment:
+      - MODEL_PATH=/app/models
+    volumes:
+      - ./ml/models:/app/models
+
+  # Webhook Service (WhatsApp/SMS)
+  webhook:
+    build: ./webhook
+    ports:
+      - "8002:8002"
+    environment:
+      - TWILIO_ACCOUNT_SID=${TWILIO_ACCOUNT_SID}
+      - TWILIO_AUTH_TOKEN=${TWILIO_AUTH_TOKEN}
+      - GUPSHUP_API_KEY=${GUPSHUP_API_KEY}
+    depends_on:
+      - actions
+
+volumes:
+  postgres_data:

@@ -1,0 +1,12 @@
+action_endpoint:
+  url: ${ACTIONS_SERVER_URL}
+
+# Optional: tracker store and event broker can be configured later for scale
+#tracker_store:
+#  type: SQL
+#  dialect: "postgresql"
+#  url: ${TRACKER_DB_URL}
+#  username: ${TRACKER_DB_USER}
+#  password: ${TRACKER_DB_PASSWORD}
+#  db: ${TRACKER_DB_NAME}
+#  login_db: ${TRACKER_DB_NAME}

@@ -1,0 +1,9 @@
+@echo off
+echo Starting SIH Health Bot Webapp...
+cd webapp
+echo Installing dependencies...
+npm install --legacy-peer-deps --silent
+echo Starting development server...
+set SKIP_PREFLIGHT_CHECK=true
+set GENERATE_SOURCEMAP=false
+npm start

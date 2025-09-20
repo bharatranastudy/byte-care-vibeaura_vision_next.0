@@ -1,0 +1,168 @@
+version: "3.1"
+
+stories:
+
+# Basic conversation flow
+- story: happy path
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: symptom_check
+  - action: symptom_triage_form
+  - active_loop: symptom_triage_form
+  - active_loop: null
+  - action: utter_triage_summary
+  - action: action_health_analysis
+  - action: utter_symptom_analysis
+
+# Symptom checking flow
+- story: symptom analysis
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: symptom_check
+  - action: symptom_triage_form
+  - active_loop: symptom_triage_form
+  - active_loop: null
+  - action: utter_triage_summary
+  - action: action_health_analysis
+  - action: utter_symptom_analysis
+  - action: action_reward_calculation
+  - action: utter_reward_earned
+
+# Vaccination schedule flow
+- story: vaccination inquiry
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: vaccination_schedule
+  - action: utter_ask_age
+  - slot_was_set:
+    - user_age: "30"
+  - action: action_vaccination_schedule
+  - action: utter_vaccination_info
+  - action: action_reward_calculation
+  - action: utter_reward_earned
+
+# Medicine information flow
+- story: medicine lookup
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: medicine_info
+  - slot_was_set:
+    - medicine_name: "paracetamol"
+  - action: action_medicine_lookup
+  - action: utter_medicine_info
+
+# Outbreak alert flow
+- story: outbreak check
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: outbreak_alert
+  - action: utter_ask_location
+  - slot_was_set:
+    - user_location: "Mumbai"
+  - action: action_outbreak_check
+  - action: utter_outbreak_alert
+
+# Language preference flow
+- story: language change
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: language_preference
+  - slot_was_set:
+    - language: "Hindi"
+  - action: action_language_detection
+  - action: utter_language_set
+
+# Image upload flow
+- story: symptom image upload
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: upload_symptom_image
+  - action: utter_upload_instructions
+  - action: action_image_analysis
+  - action: utter_symptom_analysis
+
+# Voice input flow
+- story: voice message
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: voice_input
+  - action: utter_voice_input_received
+  - action: action_voice_processing
+  - action: utter_symptom_analysis
+
+# Medicine scanning flow
+- story: medicine scan
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: medicine_scan
+  - action: action_medicine_scan
+  - action: utter_medicine_scan_result
+
+# Health quiz flow
+- story: health quiz
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: health_quiz
+  - action: action_health_quiz
+  - action: utter_health_quiz_question
+  - intent: affirm
+  - action: action_reward_calculation
+  - action: utter_reward_earned
+
+# Emergency flow
+- story: emergency situation
+  steps:
+  - intent: emergency_help
+  - action: action_emergency_assessment
+  - action: utter_emergency_help
+
+# Reward balance check
+- story: check rewards
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: reward_balance
+  - action: action_reward_calculation
+  - action: utter_reward_balance
+
+# Appointment booking flow
+- story: book appointment
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: appointment_booking
+  - action: utter_ask_location
+  - slot_was_set:
+    - user_location: "Delhi"
+  - action: action_appointment_booking
+  - action: utter_appointment_confirmation
+  - action: action_reward_calculation
+  - action: utter_reward_earned
+
+# Fallback scenarios
+- story: fallback
+  steps:
+  - intent: nlu_fallback
+  - action: action_default_fallback
+
+- story: chitchat
+  steps:
+  - intent: mood_great
+  - action: utter_happy
+  - intent: goodbye
+  - action: utter_goodbye
+
+- story: bot challenge
+  steps:
+  - intent: bot_challenge
+  - action: utter_iamabot

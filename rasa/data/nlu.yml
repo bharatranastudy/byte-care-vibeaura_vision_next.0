@@ -1,0 +1,356 @@
+version: "3.1"
+
+nlu:
+# English Intents
+- intent: greet
+  examples: |
+    - hello
+    - hi
+    - hey
+    - good morning
+    - good afternoon
+    - good evening
+    - greetings
+
+- intent: goodbye
+  examples: |
+    - bye
+    - goodbye
+    - see you later
+    - take care
+    - farewell
+    - catch you later
+
+- intent: symptom_check
+  examples: |
+    - I have a fever
+    - My head hurts
+    - I feel dizzy
+    - I have a cough
+    - My stomach hurts
+    - I have chest pain
+    - I feel nauseous
+    - I have a headache
+    - My throat is sore
+    - I have body aches
+
+- intent: vaccination_schedule
+  examples: |
+    - What vaccines do I need?
+    - Vaccination schedule
+    - When should I get vaccinated?
+    - COVID vaccine information
+    - Flu shot schedule
+    - Child vaccination
+    - Adult vaccines
+
+- intent: medicine_info
+  examples: |
+    - Tell me about paracetamol
+    - What is aspirin used for?
+    - Medicine side effects
+    - Drug interactions
+    - Prescription information
+    - Over the counter medicines
+
+- intent: outbreak_alert
+  examples: |
+    - Any disease outbreaks?
+    - Health alerts in my area
+    - COVID updates
+    - Dengue cases
+    - Cholera outbreak
+    - Health warnings
+
+- intent: health_tips
+  examples: |
+    - Health advice
+    - Wellness tips
+    - Healthy lifestyle
+    - Prevention tips
+    - Health recommendations
+    - Stay healthy
+
+- intent: emergency_help
+  examples: |
+    - Emergency
+    - Help me
+    - Urgent medical help
+    - Call ambulance
+    - Medical emergency
+    - I need immediate help
+
+- intent: language_preference
+  examples: |
+    - Change language to Hindi
+    - Speak in Marathi
+    - Bengali language
+    - Tamil please
+    - Telugu language
+    - Switch to English
+
+- intent: reward_balance
+  examples: |
+    - Check my rewards
+    - Token balance
+    - How many tokens do I have?
+    - My health tokens
+    - Reward points
+
+- intent: upload_symptom_image
+  examples: |
+    - I want to upload an image
+    - Photo of my symptoms
+    - Image upload
+    - Picture of rash
+    - Skin condition photo
+
+- intent: voice_input
+  examples: |
+    - Voice message
+    - Audio input
+    - Record my symptoms
+    - Voice note
+    - Speak instead of type
+
+- intent: medicine_scan
+  examples: |
+    - Scan medicine
+    - Medicine barcode
+    - Drug information
+    - Medicine details
+    - Prescription scan
+
+- intent: health_quiz
+  examples: |
+    - Take health quiz
+    - Health knowledge test
+    - Quiz questions
+    - Health assessment
+    - Wellness quiz
+
+- intent: appointment_booking
+  examples: |
+    - Book appointment
+    - Schedule doctor visit
+    - Make appointment
+    - Doctor consultation
+    - Medical appointment
+
+# Hindi Intents (हिंदी)
+- intent: greet
+  examples: |
+    - नमस्ते
+    - नमस्कार
+    - हेलो
+    - आदाब
+    - सुप्रभात
+    - शुभ संध्या
+
+- intent: symptom_check
+  examples: |
+    - मुझे बुखार है
+    - मेरा सिर दर्द कर रहा है
+    - मुझे चक्कर आ रहे हैं
+    - मुझे खांसी है
+    - मेरे पेट में दर्द है
+    - मुझे सीने में दर्द है
+    - मुझे जी मिचलाना है
+    - मुझे सिरदर्द है
+    - मेरा गला खराब है
+    - मुझे बदन दर्द है
+
+- intent: vaccination_schedule
+  examples: |
+    - मुझे कौन से टीके लगवाने चाहिए?
+    - टीकाकरण कार्यक्रम
+    - कब टीका लगवाना चाहिए?
+    - कोविड टीका जानकारी
+    - फ्लू शॉट समय
+    - बच्चे का टीकाकरण
+
+# Marathi Intents (मराठी)
+- intent: greet
+  examples: |
+    - नमस्कार
+    - हॅलो
+    - गुड मॉर्निंग
+    - शुभ संध्या
+
+- intent: symptom_check
+  examples: |
+    - मला ताप आहे
+    - माझ्या डोक्यात दुखतं
+    - मला चक्कर येत आहे
+    - मला खोकी आहे
+    - माझ्या पोटात दुखतं
+    - मला छातीत दुखतं
+
+# Bengali Intents (বাংলা)
+- intent: greet
+  examples: |
+    - নমস্কার
+    - হ্যালো
+    - শুভ সকাল
+    - শুভ সন্ধ্যা
+
+- intent: symptom_check
+  examples: |
+    - আমার জ্বর হয়েছে
+    - আমার মাথা ব্যথা করছে
+    - আমার মাথা ঘুরছে
+    - আমার কাশি হয়েছে
+    - আমার পেটে ব্যথা
+    - আমার বুকে ব্যথা
+
+# Tamil Intents (தமிழ்)
+- intent: greet
+  examples: |
+    - வணக்கம்
+    - ஹலோ
+    - காலை வணக்கம்
+    - மாலை வணக்கம்
+
+- intent: symptom_check
+  examples: |
+    - எனக்கு காய்ச்சல்
+    - எனக்கு தலைவலி
+    - எனக்கு தலை சுற்றுகிறது
+    - எனக்கு இருமல்
+    - எனக்கு வயிற்று வலி
+    - எனக்கு மார்பு வலி
+
+# Telugu Intents (తెలుగు)
+- intent: greet
+  examples: |
+    - నమస్కారం
+    - హలో
+    - శుభోదయం
+    - శుభ సాయంత్రం
+
+- intent: symptom_check
+  examples: |
+    - నాకు జ్వరం వచ్చింది
+    - నాకు తలనొప్పి
+    - నాకు తల తిరుగుతోంది
+    - నాకు దగ్గు వచ్చింది
+    - నాకు కడుపు నొప్పి
+    - నాకు ఛాతీ నొప్పి
+
+# Added multilingual intents for vaccination, outbreak, appointment
+# Hindi (हिंदी)
+- intent: outbreak_alert
+  examples: |
+    - क्या मेरे क्षेत्र में कोई बीमारी का प्रकोप है?
+    - मेरे आस-पास स्वास्थ्य चेतावनी
+    - डेंगू का प्रकोप है क्या?
+    - कोविड अपडेट बताएं
+    - स्वास्थ्य अलर्ट
+
+- intent: appointment_booking
+  examples: |
+    - डॉक्टर की अपॉइंटमेंट बुक करें
+    - कल सुबह अपॉइंटमेंट शेड्यूल करें
+    - अगले हफ्ते डॉक्टर से मिलना है
+    - मेडिकल अपॉइंटमेंट कराइए
+    - परामर्श का समय तय करें
+
+# Marathi (मराठी)
+- intent: vaccination_schedule
+  examples: |
+    - मला कोणती लसी घ्यायची?
+    - लसीकरण वेळापत्रक
+    - लस कधी घ्यायची?
+    - फ्लू लसीची माहिती
+    - मुलांचे लसीकरण
+
+- intent: outbreak_alert
+  examples: |
+    - माझ्या भागात काही आजाराचा उद्रेक आहे का?
+    - आरोग्य सूचना
+    - डेंग्यूचा प्रादुर्भाव आहे का?
+    - कोविड अपडेट्स
+    - आरोग्य अलर्ट
+
+- intent: appointment_booking
+  examples: |
+    - डॉक्टरची अपॉइंटमेंट बुक करा
+    - उद्या सकाळची अपॉइंटमेंट ठरवा
+    - पुढच्या आठवड्यात भेट ठरवा
+    - वैद्यकीय अपॉइंटमेंट हवी आहे
+    - डॉक्टरांशी भेट निश्चित करा
+
+# Bengali (বাংলা)
+- intent: vaccination_schedule
+  examples: |
+    - আমার কোন টিকা নেওয়া দরকার?
+    - টিকাদান সময়সূচি
+    - কবে টিকা নেব?
+    - ফ্লু শট তথ্য
+    - শিশুর টিকাদান
+
+- intent: outbreak_alert
+  examples: |
+    - আমার এলাকায় কোনো রোগের প্রাদুর্ভাব আছে কি?
+    - স্বাস্থ্য সতর্কতা
+    - ডেঙ্গু প্রাদুর্ভাব
+    - কোভিড আপডেট
+    - স্বাস্থ্য এলার্ট
+
+- intent: appointment_booking
+  examples: |
+    - ডাক্তার দেখানোর সময় ঠিক করুন
+    - আগামীকাল সকালে অ্যাপয়েন্টমেন্ট দিন
+    - পরের সপ্তাহে অ্যাপয়েন্টমেন্ট দরকার
+    - চিকিৎসকের অ্যাপয়েন্টমেন্ট করুন
+    - মেডিক্যাল অ্যাপয়েন্টমেন্ট নিন
+
+# Tamil (தமிழ்)
+- intent: vaccination_schedule
+  examples: |
+    - எனக்கு எந்த தடுப்பூசிகள் வேண்டும்?
+    - தடுப்பூசி அட்டவணை
+    - எப்போது தடுப்பூசி எடுக்க வேண்டும்?
+    - காய்ச்சல் தடுப்பூசி தகவல்
+    - குழந்தைகளுக்கான தடுப்பூசி
+
+- intent: outbreak_alert
+  examples: |
+    - என் பகுதியில் எந்த நோய் பரவல் இருக்கிறதா?
+    - சுகாதார எச்சரிக்கை
+    - டெங்கு பரவல் உள்ளதா?
+    - கோவிட் அப்டேட்ஸ்
+    - ஆரோக்கிய அலர்ட்
+
+- intent: appointment_booking
+  examples: |
+    - டாக்டர் அபாயிண்ட்மென்ட் பதிவு செய்யவும்
+    - நாளை காலை அபாயிண்ட்மென்ட் வேண்டும
+    - அடுத்த வாரம் டாக்டரை பார்க்க வேண்டும்
+    - மருத்துவ அபாயிண்ட்மென்ட் செய்யவும்
+    - நேரம் ஒதுக்கவும்
+
+# Telugu (తెలుగు)
+- intent: vaccination_schedule
+  examples: |
+    - నాకు ఏ టీకాలు అవసరం?
+    - టీకా షెడ్యూల్
+    - ఎప్పుడు టీకా వేయాలి?
+    - ఫ్లూ షాట్ సమాచారం
+    - పిల్లల టీకాలు
+
+- intent: outbreak_alert
+  examples: |
+    - నా ప్రాంతంలో ఏదైనా వ్యాధి వ్యాప్తి ఉందా?
+    - ఆరోగ్య హెచ్చరికలు
+    - డెంగ్యూ ప్రబలిందా?
+    - కోవిడ్ అప్‌డేట్స్
+    - హెల్త్ అలర్ట్స్
+
+- intent: appointment_booking
+  examples: |
+    - డాక్టర్ అపాయింట్‌మెంట్ బుక్ చేయండి
+    - రేపు ఉదయం అపాయింట్‌మెంట్ కావాలి
+    - వచ్చే వారం డాక్టర్‌ని కలవాలి
+    - మెడికల్ అపాయింట్‌మెంట్ చేయండి
+    - సమయం స్థిరపరచండి
