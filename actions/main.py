@@ -8,8 +8,6 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 import uvicorn
 import os
-import openai
-from fastapi.middleware.cors import CORSMiddleware
 from typing import Dict, List, Any, Optional
 import logging
 import hmac
@@ -59,84 +57,11 @@ from fastapi.responses import PlainTextResponse
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-
-app = FastAPI()
-
-
-# --- OpenAI API Key ---
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-openai.api_key = OPENAI_API_KEY
-
-# --- In-memory session store for web users (for demo; use Redis/DB for production) ---
-web_user_histories = {}
-from fastapi import Request
-from fastapi.responses import JSONResponse
-from pydantic import BaseModel
-
-# --- Webapp Chatbot API ---
-class ChatRequest(BaseModel):
-    user_id: str
-    message: str
-
-@app.post("/api/chat")
-async def chat_api(req: ChatRequest):
-    user_id = req.user_id
-    user_message = req.message
-    if not OPENAI_API_KEY:
-        return JSONResponse({"error": "OpenAI API key not set."}, status_code=500)
-    # Maintain conversation history for context (last 12 exchanges)
-    history = web_user_histories.get(user_id, [])
-    system_prompt = {
-        "role": "system",
-        "content": (
-            "You are ByteCare, an advanced AI health assistant. "
-            "You act like ChatGPT, providing deeply contextual, empathetic, and actionable health and wellness advice. "
-            "You remember the user's previous context in this chat, and can summarize, clarify, and ask follow-up questions. "
-            "Always be friendly, clear, and concise. If a question is outside your scope, recommend consulting a healthcare professional. "
-            "If the user asks for a summary, provide a concise summary of the conversation so far. "
-            "If the user shares symptoms, ask clarifying questions and suggest next steps. "
-            "If the user asks for motivation or mental health support, provide encouragement and evidence-based advice. "
-            "Always avoid repeating yourself verbatim in consecutive answers, and always tailor your response to the user's latest message."
-        )
-    }
-    messages = [system_prompt]
-    for h in history[-12:]:
-        messages.append({"role": "user", "content": f"[User]: {h['user']}"})
-        if h.get("assistant"):
-            messages.append({"role": "assistant", "content": h["assistant"]})
-    messages.append({"role": "user", "content": f"[User]: {user_message}"})
-    try:
-        # Save to history before call to help GPT-4 see the latest turn
-        history.append({"user": user_message})
-        web_user_histories[user_id] = history
-        try:
-            response = openai.ChatCompletion.create(
-                model="gpt-4",
-                messages=messages,
-                max_tokens=1024,
-                temperature=0.7
-            )
-        except Exception as e:
-            # fallback to gpt-3.5-turbo if gpt-4 is not available
-            logger.warning(f"Falling back to gpt-3.5-turbo: {e}")
-            response = openai.ChatCompletion.create(
-                model="gpt-3.5-turbo-16k",
-                messages=messages,
-                max_tokens=1024,
-                temperature=0.7
-            )
-        answer = response.choices[0].message["content"].strip()
-        # Save assistant reply to history
-        history[-1]["assistant"] = answer
-        web_user_histories[user_id] = history
-        return {"reply": answer}
-    except Exception as e:
-        logger.error(f"AI chat error: {e}")
-        return JSONResponse({"error": str(e)}, status_code=500)
+app = FastAPI(
     title="SIH Health Bot Actions Server",
     description="FastAPI server for handling Rasa custom actions and government API integration",
     version="1.0.0"
-
+)
 
 # CORS middleware
 app.add_middleware(

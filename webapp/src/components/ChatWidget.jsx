@@ -34,16 +34,6 @@ const ChatWidget = () => {
     scrollToBottom();
   }, [messages]);
 
-  // Generate a persistent user ID for session (localStorage)
-  const getUserId = () => {
-    let uid = localStorage.getItem('chat_user_id');
-    if (!uid) {
-      uid = 'web-' + Math.random().toString(36).substr(2, 12);
-      localStorage.setItem('chat_user_id', uid);
-    }
-    return uid;
-  };
-
   const handleSendMessage = async () => {
     if (!inputText.trim()) return;
 
@@ -58,36 +48,40 @@ const ChatWidget = () => {
     setInputText('');
     setIsTyping(true);
 
-    try {
-      const res = await fetch('/api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          user_id: getUserId(),
-          message: inputText
-        })
-      });
-      const data = await res.json();
+    // Simulate AI response
+    setTimeout(() => {
       const botResponse = {
         id: Date.now() + 1,
         type: 'bot',
-        text: data.reply || data.error || 'Sorry, I could not process your request.',
+        text: getBotResponse(inputText),
         timestamp: new Date()
       };
       setMessages(prev => [...prev, botResponse]);
-    } catch (err) {
-      setMessages(prev => [...prev, {
-        id: Date.now() + 2,
-        type: 'bot',
-        text: 'Network error. Please try again later.',
-        timestamp: new Date()
-      }]);
-    } finally {
       setIsTyping(false);
-    }
+    }, 1500);
   };
 
-  // getBotResponse is now handled by backend AI
+  const getBotResponse = (input) => {
+    const lowerInput = input.toLowerCase();
+    
+    if (lowerInput.includes('fever') || lowerInput.includes('temperature')) {
+      return 'I understand you\'re experiencing fever. This could indicate an infection. Please monitor your temperature and consider consulting a healthcare provider if it persists above 100.4°F (38°C) for more than 24 hours.';
+    }
+    
+    if (lowerInput.includes('headache') || lowerInput.includes('head pain')) {
+      return 'Headaches can have various causes. Try staying hydrated, getting adequate rest, and managing stress. If severe or persistent, please consult a healthcare professional.';
+    }
+    
+    if (lowerInput.includes('cough') || lowerInput.includes('cold')) {
+      return 'For cough and cold symptoms, ensure adequate rest, stay hydrated, and consider warm saltwater gargles. If symptoms worsen or persist beyond a week, please see a doctor.';
+    }
+    
+    if (lowerInput.includes('vaccine') || lowerInput.includes('vaccination')) {
+      return 'I can help you with vaccination schedules! Please visit our Vaccination Schedule page for personalized recommendations based on your age and health status.';
+    }
+    
+    return 'Thank you for sharing your concern. For accurate medical advice, I recommend consulting with a healthcare professional. I can help you find nearby clinics or provide general health information.';
+  };
 
   const handleVoiceInput = () => {
     setIsListening(!isListening);
